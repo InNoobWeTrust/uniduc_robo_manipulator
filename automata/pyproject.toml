@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "automata"
+version = "0.1.0"
+description = "Service for controlling robot via central hub or direct control"
+authors = ["Duc Vu Truong <vu.truong.16193@gmail.com, forbidden.gun@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+python-socketio = {extras = ["client"], version = "^5.0.3"}
+requests = "^2.25.1"
+
+[tool.poetry.dev-dependencies]
+jedi = "^0.17.2"
+jedi-language-server = "^0.21.0"
+yapf = "^0.30.0"
+pylama = "^7.7.1"
+ipython = "^7.19.0"
+rope = "^0.18.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
