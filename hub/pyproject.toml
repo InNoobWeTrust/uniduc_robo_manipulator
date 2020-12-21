@@ -20,6 +20,9 @@ pylama = "^7.7.1"
 ipython = "^7.19.0"
 rope = "^0.18.0"
 
+[tool.poetry.scripts]
+serve = "hub.hub:serve"
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"

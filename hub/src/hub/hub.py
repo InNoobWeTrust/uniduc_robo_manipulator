@@ -6,9 +6,10 @@ Entry point for server
 import os
 from flask import Flask
 import eventlet
+# Patch eventlet first before importing project's code
 eventlet.monkey_patch()
-from config import config
-from api import api as api_blueprint, socketio
+from .config import config
+from .api import api as api_blueprint, socketio
 
 
 def create_hub(config_name='default'):
@@ -23,9 +24,13 @@ def create_hub(config_name='default'):
     return hub
 
 
-if __name__ == '__main__':
+def serve():
     config_name = os.environ.get('FLASK_CONFIG', 'default')
     hub = create_hub(config_name)
     socketio.run(hub,
                  host=config[config_name].HUB_ADDR,
                  port=config[config_name].HUB_PORT)
+
+
+if __name__ == '__main__':
+    serve()
