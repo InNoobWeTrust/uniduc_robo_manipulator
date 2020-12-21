@@ -1,0 +1,34 @@
+// Global definitions of the queries
+http://localhost:55271
+Accept: application/json
+--
+
+#
+# Ping automata instance with serial number: dummy
+#
+--
+GET /api/v0/automata/dummy/ping
+
+#
+# List available comports.
+#
+--
+OPTIONS /api/v0/automata/dummy/comports
+
+
+#
+# Connect to virtual comport created by socat.
+# Note that attributes "rtscts" and "dsrdtr" are important for virtual socket.
+# Ref: github.com/pyserial/pyserial/issues/59
+#
+--
+PUT /api/v0/automata/dummy/comports
+{
+    "comport": "/dev/pts/12",
+    "attributes": {
+        "baudrate": 9600,
+        "rtscts": true,
+        "dsrdtr": true
+    },
+    "timeout": 3
+}
