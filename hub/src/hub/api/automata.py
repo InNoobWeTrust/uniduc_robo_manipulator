@@ -90,7 +90,7 @@ def socket_send_receive(action, message, room, timeout=5):
         socket_response = e.wait()
     except Timeout:
         # abort(504)
-        socket_response = {'error': 'request timed out'}
+        socket_response = {'error': f'request timed out after {timeout}s'}
         pass
     finally:
         events.pop(u, None)
@@ -109,31 +109,34 @@ def ping(serial_number):
 
 
 @api.route('/automata/<serial_number>/comports',
-           methods=['OPTIONS', 'GET', 'PUT', 'DELETE'])
+           methods=['OPTIONS', 'GET', 'POST', 'PATCH'])
 def comports(serial_number):
     """
     OPTIONS: List available comports.
     GET: List attached comports.
-    PUT: Connect comport.
-    DELETE: Disconnect comport.
+    POST: Connect new comport or replace old connection with new setup values.
+    PATCH: Disconnect comport. This is counter-intuitive but as DELETE is not
+           accepting request body, this is the only choice
     """
     message = ''
+    timeout = int(request.json.get('timeout', 5)) if request.get_json(
+        silent=True) else 5
     if request.method == 'OPTIONS':
         message = {'cmd': 'list available'}
     elif request.method == 'GET':
         message = {'cmd': 'list attached'}
-    elif request.method == 'PUT':
+    elif request.method == 'POST':
         message = {
             'cmd': 'connect',
             'comport': request.json["comport"],
             'attributes': request.json["attributes"]
         }
-    elif request.method == 'DELETE':
+    elif request.method == 'PATCH':
         message = {'cmd': 'close', 'comport': request.json["comport"]}
     return socket_send_receive('comports',
                                message,
                                room=serial_number,
-                               timeout=request.json.get('timeout') or 5)
+                               timeout=timeout)
 
 
 @api.route('/automata/<serial_number>/repl', methods=['POST'])
@@ -143,5 +146,14 @@ def repl(serial_number):
     Since robots at least will join to the room of their serial number, send
     request to the room is enough.
     """
-    message = {'comport': request.json['comport'], 'cmd': request.json['cmd']}
-    return socket_send_receive('repl', message, room=serial_number)
+    message = {
+        'comport': request.json['comport'],
+        'session': request.json['session'],
+        'cmd': request.json['cmd'],
+        'timeout': int(request.json.get('cmd_timeout', 5))
+    }
+    timeout = int(request.json.get('timeout')) or 5
+    return socket_send_receive('repl',
+                               message,
+                               room=serial_number,
+                               timeout=timeout)

@@ -1,6 +1,7 @@
 // Global definitions of the queries
 http://localhost:55271
 Accept: application/json
+content-type: applicatation/json
 --
 
 #
@@ -17,18 +18,46 @@ OPTIONS /api/v0/automata/dummy/comports
 
 
 #
+# List connected comports.
+#
+--
+GET /api/v0/automata/dummy/comports
+
+#
+# Disconnect from virtual comport
+#
+--
+PATCH /api/v0/automata/dummy/comports
+{
+    "comport": "./pty"
+}
+
+#
 # Connect to virtual comport created by socat.
 # Note that attributes "rtscts" and "dsrdtr" are important for virtual socket.
 # Ref: github.com/pyserial/pyserial/issues/59
 #
 --
-PUT /api/v0/automata/dummy/comports
+POST /api/v0/automata/dummy/comports
 {
-    "comport": "/dev/pts/12",
+    "comport": "./pty",
     "attributes": {
         "baudrate": 9600,
         "rtscts": true,
         "dsrdtr": true
     },
     "timeout": 3
+}
+
+#
+# Send repl request to evaluate by peripherals via serial connection.
+#
+--
+POST /api/v0/automata/dummy/repl
+{
+    "comport": "./pty",
+    "timeout": 5,
+    "session": "test",
+    "cmd": "Hello\nRepl",
+    "cmd_timeout": 3
 }
