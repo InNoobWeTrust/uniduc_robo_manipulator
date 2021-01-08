@@ -9,9 +9,9 @@ Require exporting to environment variables the address & port of management hub 
 For development and testing purpose, defaults values are set as follows:
 
 ```python
-HUB_ADDR = os.environ.get('HUB_ADDR', 'http://localhost')
-HUB_PORT = int(os.environ.get('HUB_PORT', '55271'))
-SERIAL_NUMBER = os.environ.get('SERIAL_NUMBER', 'dummy')
+HUB_ADDR = os.getenv('HUB_ADDR') or 'http://localhost'
+HUB_PORT = int(os.getenv('HUB_PORT') or '5000')
+SERIAL_NUMBER = os.getenv('SERIAL_NUMBER') or 'dummy'
 ```
 
 After connected to management hub, registered handlers will be triggered on corresponding events.

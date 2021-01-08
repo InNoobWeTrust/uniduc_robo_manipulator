@@ -16,21 +16,32 @@ To test API, either use desktop application like Postman or search for "rest cli
 
 **Notice**: The API described here is just for quick prototyping and may subject to changes. The plan is using some API design collaboration tool like [Insomnia](https://insomnia.rest/) to discuss and conclude on the final API as well as keeping universal specification (OpenAPI format).
 
-## Route nodes (adding these suffix to the route above)
+## Authorization
 
-1. `<serial_number>/ping`
+To access api routes, use http basic authentication, provided email+password or token requested by sending a POST request to the endpoint below.
+
+```
+<server_address>:<port>/api/v0/tokens/
+```
+
+The recommended and more secure way is to authorize once using email+password to get token and then use token throughout the api routes. To renew, just use the very token at hand to request a new one.
+
+Read more about http basic authentication here: [https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization).
+
+## Route nodes
+
+1. `<server_address>:<port>/api/v0/automata/<serial_number>/ping`
 
     Ping the robot with specified serial number.
 
     HTTP methods allowed: `GET`
 
-2. `<serial_number>/comports`
+2. `<server_address>:<port>/api/v0/automata/<serial_number>/comports`
 
     Serial ports management for specified robot.
 
     HTTP methods allowed:
 
-    - `OPTIONS`: List available serial ports that can be discovered by PySerial. Won't list virtual ports such as those created by `socat`.
     - `GET`: List attached (connected) serial ports and its status (alive or not), attributes, protocol options.
     - `POST`: connect to specified serial port. If the port is already connected, disconnect and connect again with new attributes and protocol options. The json for request body must provide the port and optionally the attributes/protocol (currently, protocol options is not yet enabled). An example request is as follow:
         ```rest
@@ -58,7 +69,14 @@ To test API, either use desktop application like Postman or search for "rest cli
         }
         ```
 
-3. `<serial_number>/repl`
+3. `<server_address>:<port>/api/v0/automata/<serial_number>/physical_ports`
+    List physical serial ports for specified robot.
+
+    HTTP methods allowed:
+
+    - `GET`: List available serial ports that can be discovered by PySerial. Won't list virtual ports such as those created by `socat`.
+
+4. `<server_address>:<port>/api/v0/automata/<serial_number>/repl`
 
     Send command to serial connection and get the response.
 

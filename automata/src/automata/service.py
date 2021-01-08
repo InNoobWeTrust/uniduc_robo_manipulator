@@ -16,11 +16,10 @@ from serial.threaded import Protocol, ReaderThread
 from serial.tools import list_ports
 
 # Address to api server, should use static IP on production server
-# HUB_ADDR = os.environ.get('HUB_ADDR', 'https://api.uniduc.com')
-HUB_ADDR = os.environ.get('HUB_ADDR', 'http://localhost')
-HUB_PORT = int(os.environ.get('HUB_PORT', '55271'))
+HUB_ADDR = os.getenv('HUB_ADDR') or 'http://localhost'
+HUB_PORT = int(os.getenv('HUB_PORT') or '5000')
 # Provide serial number as unique id for robot
-SERIAL_NUMBER = os.environ.get('SERIAL_NUMBER', 'dummy')
+SERIAL_NUMBER = os.getenv('SERIAL_NUMBER') or 'dummy'
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 

@@ -2,7 +2,7 @@
 name = "automata"
 version = "0.1.0"
 description = "Service for controlling robot via central hub or direct control"
-authors = ["Duc Vu Truong <vu.truong.16193@gmail.com, forbidden.gun@gmail.com>"]
+authors = ["Duc Vu Truong <vu.truong.16193@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]

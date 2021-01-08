@@ -2,7 +2,7 @@
 name = "hub"
 version = "0.1.0"
 description = "Central hub for controlling robot"
-authors = ["Duc Vu Truong <vu.truong.16193@gmail.com, forbidden.gun@gmail.com>"]
+authors = ["Duc Vu Truong <vu.truong.16193@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
@@ -11,6 +11,14 @@ Flask = "^1.1.2"
 Flask-HTTPAuth = "^4.2.0"
 Flask-SocketIO = "^5.0.0"
 eventlet = "^0.30.0"
+redis = "^3.5.3"
+python-dotenv = "^0.15.0"
+Flask-SSLify = "^0.1.5"
+Flask-SQLAlchemy = "^2.4.4"
+Flask-Migrate = "^2.5.3"
+ForgeryPy3 = "^0.3.1"
+itsdangerous = "^1.1.0"
+Flask-Login = "^0.5.0"
 
 [tool.poetry.dev-dependencies]
 jedi = "^0.17.2"
@@ -21,7 +29,6 @@ ipython = "^7.19.0"
 rope = "^0.18.0"
 
 [tool.poetry.scripts]
-serve = "hub.hub:serve"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

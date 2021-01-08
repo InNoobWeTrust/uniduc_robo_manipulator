@@ -1,32 +1,44 @@
 // Global definitions of the queries
-http://localhost:55271
+http://localhost:5000
 Accept: application/json
 content-type: applicatation/json
 --
 
 #
+# Get token for api usage
+#
+--
+Authorization: Basic YWRtaW5AZXhhbXBsZS5jb206YWRtaW4=
+POST /api/v0/tokens/
+
+
+#
 # Ping automata instance with serial number: dummy
 #
 --
+Authorization: Basic ZXlKaGJHY2lPaUpJVXpVeE1pSXNJbWxoZENJNk1UWXhNVEUwTXpVM09Dd2laWGh3SWpveE5qRXhNVFEzTVRjNGZRLmV5SnBaQ0k2TVgwLm5HZ2JFLVFYRVpEcFlnT3JCd1NFUXdqYmJ3Z2ktWlh4ZTlFeWxnUzl1WU9xWVVTTUpqUVFyZ0ltZHRsMEVUN29nckwxenNTZnY3V1RobENXYm5CLXN3Og==
 GET /api/v0/automata/dummy/ping
 
 #
 # List available comports.
 #
 --
-OPTIONS /api/v0/automata/dummy/comports
+Authorization: Basic ZXlKaGJHY2lPaUpJVXpVeE1pSXNJbWxoZENJNk1UWXhNVEUwTXpVM09Dd2laWGh3SWpveE5qRXhNVFEzTVRjNGZRLmV5SnBaQ0k2TVgwLm5HZ2JFLVFYRVpEcFlnT3JCd1NFUXdqYmJ3Z2ktWlh4ZTlFeWxnUzl1WU9xWVVTTUpqUVFyZ0ltZHRsMEVUN29nckwxenNTZnY3V1RobENXYm5CLXN3Og==
+GET /api/v0/automata/dummy/physical_ports
 
 
 #
 # List connected comports.
 #
 --
+Authorization: Basic ZXlKaGJHY2lPaUpJVXpVeE1pSXNJbWxoZENJNk1UWXhNVEUwTXpVM09Dd2laWGh3SWpveE5qRXhNVFEzTVRjNGZRLmV5SnBaQ0k2TVgwLm5HZ2JFLVFYRVpEcFlnT3JCd1NFUXdqYmJ3Z2ktWlh4ZTlFeWxnUzl1WU9xWVVTTUpqUVFyZ0ltZHRsMEVUN29nckwxenNTZnY3V1RobENXYm5CLXN3Og==
 GET /api/v0/automata/dummy/comports
 
 #
 # Disconnect from virtual comport
 #
 --
+Authorization: Basic ZXlKaGJHY2lPaUpJVXpVeE1pSXNJbWxoZENJNk1UWXhNVEUwTXpVM09Dd2laWGh3SWpveE5qRXhNVFEzTVRjNGZRLmV5SnBaQ0k2TVgwLm5HZ2JFLVFYRVpEcFlnT3JCd1NFUXdqYmJ3Z2ktWlh4ZTlFeWxnUzl1WU9xWVVTTUpqUVFyZ0ltZHRsMEVUN29nckwxenNTZnY3V1RobENXYm5CLXN3Og==
 PATCH /api/v0/automata/dummy/comports
 {
     "comport": "./pty"
@@ -38,6 +50,7 @@ PATCH /api/v0/automata/dummy/comports
 # Ref: github.com/pyserial/pyserial/issues/59
 #
 --
+Authorization: Basic ZXlKaGJHY2lPaUpJVXpVeE1pSXNJbWxoZENJNk1UWXhNVEUwTXpVM09Dd2laWGh3SWpveE5qRXhNVFEzTVRjNGZRLmV5SnBaQ0k2TVgwLm5HZ2JFLVFYRVpEcFlnT3JCd1NFUXdqYmJ3Z2ktWlh4ZTlFeWxnUzl1WU9xWVVTTUpqUVFyZ0ltZHRsMEVUN29nckwxenNTZnY3V1RobENXYm5CLXN3Og==
 POST /api/v0/automata/dummy/comports
 {
     "comport": "./pty",
@@ -53,6 +66,7 @@ POST /api/v0/automata/dummy/comports
 # Send repl request to evaluate by peripherals via serial connection.
 #
 --
+Authorization: Basic ZXlKaGJHY2lPaUpJVXpVeE1pSXNJbWxoZENJNk1UWXhNVEUwTXpVM09Dd2laWGh3SWpveE5qRXhNVFEzTVRjNGZRLmV5SnBaQ0k2TVgwLm5HZ2JFLVFYRVpEcFlnT3JCd1NFUXdqYmJ3Z2ktWlh4ZTlFeWxnUzl1WU9xWVVTTUpqUVFyZ0ltZHRsMEVUN29nckwxenNTZnY3V1RobENXYm5CLXN3Og==
 POST /api/v0/automata/dummy/repl
 {
     "comport": "./pty",

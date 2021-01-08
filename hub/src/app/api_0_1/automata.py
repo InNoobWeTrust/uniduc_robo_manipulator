@@ -4,6 +4,7 @@ Automata routes
 """
 
 import uuid
+from typing import Dict
 
 from eventlet import event
 from eventlet.timeout import Timeout
@@ -37,7 +38,7 @@ def socket_disconnect():
 
 
 @socketio.on('join')
-def socket_room_join(message):
+def socket_room_join(message: Dict):
     """
     After connected, robot will request to join room named its serial number
     """
@@ -48,7 +49,7 @@ def socket_room_join(message):
 
 
 @socketio.on('leave')
-def socket_room_leave(message):
+def socket_room_leave(message: Dict):
     """
     When service on robot is shutting down, robot will request to leave room
     """
@@ -60,7 +61,7 @@ def socket_room_leave(message):
 
 
 @socketio.on('response')
-def socket_response(message):
+def socket_response(message: Dict):
     """
     Handle responses from robots, uuid in the response is tied with
     corresponding request.
@@ -74,7 +75,7 @@ def socket_response(message):
         pass
 
 
-def socket_send_receive(action, message, room, timeout=5):
+def socket_send_receive(action: str, message: Dict, room: str, timeout=5):
     u = str(uuid.uuid4())
     socket_message = {
         'uuid': u,
@@ -101,29 +102,40 @@ def socket_send_receive(action, message, room, timeout=5):
 
 
 @api.route('/automata/<serial_number>/ping')
-def ping(serial_number):
+def ping(serial_number: str):
     """
     Check if robot with specified serial number is online yet.
     """
     return socket_send_receive('ping', 'ping', room=serial_number)
 
 
-@api.route('/automata/<serial_number>/comports',
-           methods=['OPTIONS', 'GET', 'POST', 'PATCH'])
-def comports(serial_number):
+@api.route('/automata/<serial_number>/physical_ports', methods=['GET'])
+def physical_ports(serial_number: str):
     """
-    OPTIONS: List available comports.
+    List available comports.
+    """
+    message = {'cmd': 'list available'}
+    timeout = int(request.json.get('timeout', 5)) if request.get_json(
+        silent=True) else 5
+    return socket_send_receive('comports',
+                               message,
+                               room=serial_number,
+                               timeout=timeout)
+
+
+@api.route('/automata/<serial_number>/comports',
+           methods=['GET', 'POST', 'PATCH'])
+def comports(serial_number: str):
+    """
     GET: List attached comports.
     POST: Connect new comport or replace old connection with new setup values.
     PATCH: Disconnect comport. This is counter-intuitive but as DELETE is not
            accepting request body, this is the only choice
     """
-    message = ''
+    message = {}
     timeout = int(request.json.get('timeout', 5)) if request.get_json(
         silent=True) else 5
-    if request.method == 'OPTIONS':
-        message = {'cmd': 'list available'}
-    elif request.method == 'GET':
+    if request.method == 'GET':
         message = {'cmd': 'list attached'}
     elif request.method == 'POST':
         message = {
@@ -140,7 +152,7 @@ def comports(serial_number):
 
 
 @api.route('/automata/<serial_number>/repl', methods=['POST'])
-def repl(serial_number):
+def repl(serial_number: str):
     """
     Send control request to robot of specific serial number.
     Since robots at least will join to the room of their serial number, send

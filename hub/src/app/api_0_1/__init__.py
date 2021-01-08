@@ -12,4 +12,4 @@ api = Blueprint('api', __name__)
 socketio = SocketIO()
 
 # Import routes, using the blueprint created (circular dependencies)
-from . import automata, errors
+from . import authentication, automata, errors
