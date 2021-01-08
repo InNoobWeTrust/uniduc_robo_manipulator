@@ -22,15 +22,37 @@ The ability to change port of management hub is also broken, so the port will al
 
 ## Management hub
 
-### Running
+### Setting up database
 
-Poetry's run command is broken for Flask-SocketIO, so the process to run the hub is a little special. Change dir to `./hub` and execute the following:
+API routes require authorization to access so user information must be stored in database. Before using management hub, database needs to be initiated. Follow the steps bellow to setup development database:
 
 ```shell
-# Activate poetry shell to load dependencies into current shell session
-poetry shell
-# The command `serve` will be available to call. Provide the HUB_ADDR with only the IP, HUB_PORT with the port and run
-HUB_ADDR=0.0.0.0 HUB_PORT=55271 serve
+cd ./hub
+FLASK_APP=hub.py poetry run flask shell
+```
+
+When inside the shell, execute commands below to setup fake database
+
+```python3
+from hub import db, User, Robot, RoboticRole, RobotUser
+db.drop_all()
+db.create_all()
+User.generate_fake(10)
+Robot.generate_fake()
+RoboticRole.insert_roles()
+RobotUser.generate_fake()
+quit()
+```
+
+### Running
+
+Change dir to `./hub` and execute the following:
+
+```shell
+# Install required dependencies
+sudo ./install_dependencies.sh
+# Provide the HUB_ADDR with only the IP, HUB_PORT with the port and run
+HUB_ADDR=0.0.0.0 HUB_PORT=5000 poetry run python3 src//hub.py
 ```
 
 _**Didn't work?**_: refer to the general notice to ensure poetry is installed and all dependencies are loaded.
@@ -51,9 +73,9 @@ For detailed documentation on this sub-project, [see here](docs/management_hub.m
 To run the service in development mode, change dir to `./automata` and execute the command below:
 
 ```shell
-# Provide correct http address and port to management hub via environment variables, example: http://127.0.0.1
+# Provide correct http address and port to management hub via environment variables, example: http://localhost
 # Also, change the serial number of the robot via enviroment variable `SERIAL_NUMBER`
-HUB_ADDR=http://127.0.0.1 HUB_PORT=55271 SERIAL_NUMBER='ultron' poetry run serve
+HUB_ADDR=http://localhost HUB_PORT=5000 SERIAL_NUMBER='ultron' poetry run serve
 ```
 
 _**Didn't work?**_: refer to the general notice to ensure poetry is installed and all dependencies are loaded.
