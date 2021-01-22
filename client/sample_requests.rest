@@ -6,10 +6,20 @@ content-type: applicatation/json
 
 #
 # Get token for api usage
+# The login is base64 encoded of 'admin@example.com:admin'
 #
 --
 Authorization: Basic YWRtaW5AZXhhbXBsZS5jb206YWRtaW4=
 POST /api/v0/tokens/
+
+#
+# Retrieve response of socket message asynchronously
+# Token is provided by the token route. Login with token using
+# base64 encoded of '<token>:'
+#
+--
+Authorization: Basic ZXlKaGJHY2lPaUpJVXpVeE1pSXNJbWxoZENJNk1UWXhNVEUwTXpVM09Dd2laWGh3SWpveE5qRXhNVFEzTVRjNGZRLmV5SnBaQ0k2TVgwLm5HZ2JFLVFYRVpEcFlnT3JCd1NFUXdqYmJ3Z2ktWlh4ZTlFeWxnUzl1WU9xWVVTTUpqUVFyZ0ltZHRsMEVUN29nckwxenNTZnY3V1RobENXYm5CLXN3Og==
+GET /api/v0/automata/message_session/f23bde50-1084-44e9-a270-7c708853400a
 
 
 #

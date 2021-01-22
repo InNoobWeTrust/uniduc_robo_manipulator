@@ -9,11 +9,13 @@ import eventlet
 from config import config
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_redis import FlaskRedis
 
 # Patch eventlet first before importing project's code
 eventlet.monkey_patch()
 
 db = SQLAlchemy()
+socket_response_backend = FlaskRedis(config_prefix='SOCKET_RESPONSE_BACKEND')
 
 
 def create_app(config_name='default'):
@@ -26,6 +28,9 @@ def create_app(config_name='default'):
     if app.config['SSL_REDIRECT']:
         from flask_sslify import SSLify
         app = SSLify(app)
+
+    # Result backend for socket response
+    socket_response_backend.init_app(app)
 
     # Register blueprints and routes
     from .api_0_1 import api as api_blueprint

@@ -15,6 +15,7 @@ class Config:
     ADMIN_PWD = os.getenv('ADMIN_PWD')  # Must be set in environment
     SSL_REDIRECT = False  # Default is not using SSL
     MESSAGE_QUEUE = os.getenv('MESSAGE_QUEUE') or 'redis://localhost:6379/0'
+    SOCKET_RESPONSE_BACKEND_URL = os.getenv('SOCKET_REPL_BACKEND_URL') or 'redis://localhost:6379/1'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     @staticmethod

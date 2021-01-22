@@ -10,7 +10,6 @@ auth = HTTPBasicAuth()
 
 @auth.verify_password
 def verify_password(email_or_token, password):
-    current_app.logger.debug(email_or_token or 'empty')
     if email_or_token == '':
         return False
     if password == '':
