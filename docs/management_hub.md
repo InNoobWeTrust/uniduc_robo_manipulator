@@ -45,9 +45,9 @@ Read more about http basic authentication here: [https://developer.mozilla.org/e
     - `GET`: List attached (connected) serial ports and its status (alive or not), attributes, protocol options.
     - `POST`: connect to specified serial port. If the port is already connected, disconnect and connect again with new attributes and protocol options. The json for request body must provide the port and optionally the attributes/protocol (currently, protocol options is not yet enabled). An example request is as follow:
         ```rest
-        POST https://127.0.0.1:55271/automata/dummy_serial/comports
+        POST https://localhost:5000/api/v0/automata/dummy_serial/comports
         Accept: application/json
-        content-type: applicatation/json
+        content-type: application/json
         {
             "comport": "/dev/ttyUSB0",
             "attributes": {
@@ -59,15 +59,26 @@ Read more about http basic authentication here: [https://developer.mozilla.org/e
             }
         }
         ```
+        + `comport`: the serial port to connect to.
+        + `attributes`: attributes for serial connection
+            * `baudrate`: the baudrate of serial com port to connect to.
+            * `parity`: Enable parity checking.
+            * others: see more at this link [https://pythonhosted.org/pyserial/pyserial_api.html](https://pythonhosted.org/pyserial/pyserial_api.html), Serial constructor.
+        + `protocol`: message protocol override.
+            * `cmd_mark`: mark the begin of session.
+            * `encoding`: the encoding to use.
+            * `encode_method`: set error handling scheme. See [https://www.w3schools.com/python/ref_string_encode.asp](https://www.w3schools.com/python/ref_string_encode.asp).
+            * `terminator`: line-ending.
     - `PATCH`: close specified serial port. Example request is as follow:
         ```rest
-        PATCH https://127.0.0.1:55271/automata/dummy_serial/comports
+        PATCH https://localhost:5000/api/v0/automata/dummy_serial/comports
         Accept: application/json
-        content-type: applicatation/json
+        content-type: application/json
         {
             "comport": "/dev/ttyUSB0"
         }
         ```
+        + `comport`: the port to close.
 
 3. `<server_address>:<port>/api/v0/automata/<serial_number>/physical_ports`
     List physical serial ports for specified robot.
@@ -85,9 +96,9 @@ Read more about http basic authentication here: [https://developer.mozilla.org/e
     The json for request body must specify the serial port, session name and command to send. Optionally, provide timeout for response on serial port or timeout for API request as a whole. An example request would look like this:
 
     ```rest
-    POST https://127.0.0.1:55271/automata/dummy_serial/repl
+    POST https://localhost:5000/api/v0/automata/dummy_serial/repl
     Accept: application/json
-    content-type: applicatation/json
+    content-type: application/json
     {
         "comport": "/dev/ttyUSB0",
         "timeout": 5,
@@ -96,3 +107,8 @@ Read more about http basic authentication here: [https://developer.mozilla.org/e
         "cmd_timeout": 3
     }
     ```
+    - `comport`: the port to send command to.
+    - `timeout`: the timeout for message session.
+    - `session`: the name of the message session.
+    - `cmd`: the command to send.
+    - `cmd_timeout`: timeout for response from after command is sent to serial port.
