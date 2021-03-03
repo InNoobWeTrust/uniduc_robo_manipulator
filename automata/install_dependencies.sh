@@ -7,7 +7,7 @@ require_root() {
     fi
 }
 
-packages_needed='python3-pip python3-venv libgstreamer1.0-0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-tools python3-gi gir1.2-gstreamer-1.0 socat'
+packages_needed='python3-pip python-cv-bridge python-opencv gstreamer1.0-rtsp libgstreamer1.0-0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-tools python3-gi gir1.2-gstreamer-1.0 gir1.2-gst-rtsp-server-1.0 socat'
 
 if [ -x "$(command -v brew)" ]; then yes | brew install gstreamer gst-devtools gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly python@3 pygobject3
 elif [ -x "$(command -v apt)" ]; then require_root && yes | apt install $packages_needed

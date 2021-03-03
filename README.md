@@ -52,7 +52,7 @@ Change dir to `./hub` and execute the following:
 # Install required dependencies
 sudo ./install_dependencies.sh
 # Provide the HUB_ADDR with only the IP, HUB_PORT with the port and run
-HUB_ADDR=0.0.0.0 HUB_PORT=5000 poetry run python3 src//hub.py
+HUB_ADDR=0.0.0.0 HUB_PORT=5000 poetry run python3 src/hub.py
 ```
 
 _**Didn't work?**_: refer to the general notice to ensure poetry is installed and all dependencies are loaded.
